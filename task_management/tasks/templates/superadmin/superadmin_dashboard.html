@@ -1,0 +1,51 @@
+{% extends 'SuperAdmin/base.html' %}
+
+{% block title %}Task Management{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Tasks</h5>
+                    <p class="card-text">{{ completed_tasks_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Users</h5>
+                    <p class="card-text">{{ admin_users_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Regular Users</h5>
+                    <p class="card-text">{{ regular_users_count }}</p>
+                </div>
+            </div>
+        </div>
+
+    
+        <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">All Tasks</h5>
+                    <p class="card-text">{{ all_task }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

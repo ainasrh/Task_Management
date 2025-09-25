@@ -1,0 +1,67 @@
+{% extends 'SuperAdmin/base.html' %}
+
+
+{% block title %}Task Management{% endblock %}
+
+{% block page_title %}Create Task{% endblock %}
+
+{% block content %}
+
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="title" class="form-label">Title *</label>
+        <input type="text" class="form-control" id="title" name="title" required maxlength="100">
+        <div class="invalid-feedback">
+            Please provide a task title.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Description *</label>
+        <textarea class="form-control" id="description" name="description" required rows="4"></textarea>
+        <div class="invalid-feedback">
+            Please provide a task description.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="assigned_to" class="form-label">Assign To *</label>
+        <select class="form-select" id="assigned_to" name="assigned_to" required>
+            <option value="" selected disabled>Select user</option>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+            Please select a user to assign to.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="due_date" class="form-label">Due Date *</label>
+        <input type="date" class="form-control" id="due_date" name="due_date" required>
+        <div class="invalid-feedback">
+            Please select a due date.
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label for="status" class="form-label">Status *</label>
+        <select class="form-select" id="status" name="status" required>
+            {% for code, label in status_choices %}
+                <option value="{{ code }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+            Please select a status.
+        </div>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary px-4">Create Task</button>
+    </div>
+</form>
+
+{% endblock %}

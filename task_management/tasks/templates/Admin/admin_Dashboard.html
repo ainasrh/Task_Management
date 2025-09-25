@@ -1,0 +1,80 @@
+{% extends 'Admin/admin_base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+    </div>
+
+    <div class="row">
+    
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Assigned Users</h6>
+                </div>
+                <div class="card-body">
+                    {% if assigned_users %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in assigned_users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td><span class="badge bg-{% if user.role == 'admin' %}info{% else %}secondary{% endif %}">{{ user.role }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">No users are assigned to you yet.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Tasks Assigned to Your Users</h6>
+                </div>
+                <div class="card-body">
+                    {% if tasks %}
+                    <div class="list-group">
+                        {% for task in tasks %}
+                        <div class="list-group-item list-group-item-action flex-column align-items-start mb-2">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ task.title }}</h5>
+                                <span class="badge bg-{% if task.status == 'Completed' %}success{% elif task.status == 'In Progress' %}warning{% else %}danger{% endif %}">
+                                    {{ task.status }}
+                                </span>
+                            </div>
+                            <p class="mb-1">Assigned to: {{ task.assigned_to.username }}</p>
+                            <small>Due: {{ task.due_date }}</small>
+                            <div class="mt-2">
+                                <a href="{% url 'superadmin-edit-task' task.id %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">No tasks assigned yet.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

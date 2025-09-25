@@ -1,0 +1,34 @@
+{% extends 'SuperAdmin/base.html' %}
+
+
+{% block title %}Task Management{% endblock %}
+
+{% block page_title %}Create Task{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <h1 class="mb-4">Completed Tasks</h1>
+
+        {% if tasks %}
+            <div class="list-group">
+                {% for task in tasks %}
+                    <div class="list-group-item mb-3 shadow-sm rounded">
+                        <h5 class="mb-2">{{ task.title }}</h5>
+                        <p><strong>Description:</strong> {{ task.description }}</p>
+                        <p><strong>Assigned To:</strong> {{ task.assigned_to.username }}</p>
+                        <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+                        <p><strong>Status:</strong> {{ task.get_status_display }}</p>
+                        <p><strong>Completion Report:</strong> {{ task.completion_report|default:"N/A" }}</p>
+                        <p><strong>Worked Hours:</strong> {{ task.worked_hours|default:"N/A" }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                No completed tasks found.
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

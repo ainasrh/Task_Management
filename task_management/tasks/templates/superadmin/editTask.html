@@ -1,0 +1,73 @@
+{% extends 'SuperAdmin/base.html' %}
+
+{% block title %}Task Management{% endblock %}
+{% block page_title %}Edit Task{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header  text-black">
+            Edit Task
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title *</label>
+                    <input type="text" class="form-control" id="title" name="title" required maxlength="100" value="{{ task.title }}">
+                    <div class="invalid-feedback">Please provide a task title.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description *</label>
+                    <textarea class="form-control" id="description" name="description" required rows="4">{{ task.description }}</textarea>
+                    <div class="invalid-feedback">Please provide a task description.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="assigned_to" class="form-label">Assign To *</label>
+                    <select class="form-select" id="assigned_to" name="assigned_to" required>
+                        <option disabled value="">Select user</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" {% if task.assigned_to.id == user.id %}selected{% endif %}>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">Please select a user to assign to.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="due_date" class="form-label">Due Date *</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" required value="{{ task.due_date|date:'Y-m-d' }}">
+                    <div class="invalid-feedback">Please select a due date.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status *</label>
+                    <select class="form-select" id="status" name="status" required>
+                        {% for code, label in status_choices %}
+                            <option value="{{ code }}" {% if task.status == code %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">Please select a status.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="completion_report" class="form-label">Completion Report</label>
+                    <textarea class="form-control" id="completion_report" name="completion_report" rows="3">{{ task.completion_report }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="worked_hours" class="form-label">Worked Hours</label>
+                    <input type="text"  class="form-control" id="worked_hours" name="worked_hours" value="{{ task.worked_hours }}">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'all-task' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-success">Update Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
